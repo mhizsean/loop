@@ -1,15 +1,37 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
-import { useColorScheme } from 'react-native';
+import { Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
+import { useTheme, useThemeName } from "@/hooks/use-theme";
+import { useLoopStore } from "@/lib/store";
+import { View } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+export default function RootLayout() {
+  const c = useTheme();
+
+  const themeName = useThemeName();
+
+  const hydrated = useLoopStore((state) => state._hasHydrated);
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <AppTabs />
-    </ThemeProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaProvider>
+        <StatusBar style={themeName === "dark" ? "light" : "dark"} />
+
+        <View style={{ flex: 1 }}>
+          {hydrated ? (
+            <Stack>
+              <Stack.Screen name="(tabs)" />
+              <Stack.Screen
+                name="habit/[id]"
+                options={{ presentation: "modal" }}
+              />
+            </Stack>
+          ) : (
+            <View>activity indicator here</View>
+          )}
+        </View>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }
