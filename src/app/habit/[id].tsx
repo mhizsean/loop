@@ -148,7 +148,7 @@ export default function HabitFormScreen() {
             onChange={setKind}
             options={[
               { value: "daily", label: "Daily" },
-              { value: "interval", label: "Every N days" },
+              { value: "interval", label: "Custom" },
               { value: "weekdays", label: "Weekdays" },
             ]}
           />
