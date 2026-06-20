@@ -20,7 +20,12 @@ export default function RootLayout() {
 
         <View style={{ flex: 1 }}>
           {hydrated ? (
-            <Stack>
+            <Stack
+              screenOptions={{
+                headerShown: false,
+                contentStyle: { backgroundColor: c.background },
+              }}
+            >
               <Stack.Screen name="(tabs)" />
               <Stack.Screen
                 name="habit/[id]"
