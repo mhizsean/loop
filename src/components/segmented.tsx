@@ -14,7 +14,7 @@ export function Segmented<T extends string>({
 }: Props<T>) {
   const c = useTheme();
   return (
-    <View>
+    <View style={[styles.track, { backgroundColor: c.segmentBg }]}>
       {options.map((opt) => {
         const active = opt.value === value;
         return (
