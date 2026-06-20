@@ -1,4 +1,3 @@
-// src/app/(tabs)/habits.tsx
 import { useRouter } from "expo-router";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
