@@ -1,7 +1,7 @@
 import AffirmationCard from "@/components/affirmation-card";
 import { HabitRow } from "@/components/habit-row";
 import { SectionLabel } from "@/components/section-label";
-import { MaxContentWidth, Spacing, Type } from "@/constants/theme";
+import { MaxContentWidth, Radius, Spacing, Type } from "@/constants/theme";
 import { useTheme } from "@/hooks/use-theme";
 import { greeting, longDateLabel, todayISO } from "@/lib/dates";
 import { selectToday, useLoopStore } from "@/lib/store";
@@ -54,8 +54,11 @@ export default function TodayScreen() {
             hitSlop={10}
             accessibilityRole="button"
             accessibilityLabel="Add habit"
+            style={[styles.addBtn, { backgroundColor: c.accent }]}
           >
-            <Text style={{ color: c.accent, fontSize: 28 }}>＋</Text>
+            <Text style={{ color: c.accentOn, fontSize: 24, lineHeight: 26 }}>
+              +
+            </Text>
           </Pressable>
         </View>
 
@@ -125,6 +128,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginBottom: Spacing.lg,
     gap: Spacing.md,
+  },
+  addBtn: {
+    width: 44,
+    height: 44,
+    borderRadius: Radius.pill,
+    alignItems: "center",
+    justifyContent: "center",
   },
   empty: {
     paddingTop: Spacing.xxl * 2,
