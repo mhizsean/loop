@@ -1,6 +1,10 @@
+import DateTimePicker, {
+  type DateTimePickerEvent,
+} from "@react-native-community/datetimepicker";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import {
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -48,6 +52,7 @@ export default function HabitFormScreen() {
   );
   const [remindOn, setRemindOn] = useState(existing?.reminder.enabled ?? false);
   const [time, setTime] = useState(existing?.reminder.time ?? "18:00");
+  const [showPicker, setShowPicker] = useState(false);
 
   const canSave =
     name.trim().length > 0 && (kind !== "weekdays" || days.length > 0);
@@ -77,6 +82,20 @@ export default function HabitFormScreen() {
   const onDelete = () => {
     if (existing) deleteHabit(existing.id);
     router.back();
+  };
+
+  const timeToDate = (t: string): Date => {
+    const [h, m] = t.split(":").map(Number);
+    const d = new Date();
+    d.setHours(h, m, 0, 0);
+    return d;
+  };
+  const onPickTime = (event: DateTimePickerEvent, picked?: Date) => {
+    if (Platform.OS !== "ios") setShowPicker(false);
+    if (event.type === "dismissed" || !picked) return;
+    const hh = String(picked.getHours()).padStart(2, "0");
+    const mm = String(picked.getMinutes()).padStart(2, "0");
+    setTime(`${hh}:${mm}`);
   };
 
   return (
@@ -194,13 +213,26 @@ export default function HabitFormScreen() {
             {remindOn && (
               <Pressable
                 style={[styles.timeRow, { borderTopColor: c.divider }]}
-                onPress={() => {}}
+                onPress={() => setShowPicker((v) => !v)}
               >
                 <Text style={[Type.body, { color: c.text }]}>Time</Text>
                 <Text style={[Type.body, { color: c.accent }]}>
                   {formatTime(time)}
                 </Text>
               </Pressable>
+            )}
+
+            {remindOn && showPicker && (
+              <View
+                style={Platform.OS === "ios" ? styles.iosPicker : undefined}
+              >
+                <DateTimePicker
+                  value={timeToDate(time)}
+                  mode="time"
+                  display={Platform.OS === "ios" ? "spinner" : "default"}
+                  onChange={onPickTime}
+                />
+              </View>
             )}
           </View>
 
@@ -259,4 +291,5 @@ const styles = StyleSheet.create({
     marginTop: Spacing.xxl,
     paddingVertical: Spacing.md,
   },
+  iosPicker: { alignItems: "center" },
 });
