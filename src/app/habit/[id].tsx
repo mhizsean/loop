@@ -133,7 +133,7 @@ export default function HabitFormScreen() {
           <TextInput
             value={name}
             onChangeText={setName}
-            placeholder="e.g. Read a few pages"
+            placeholder="e.g. Read a chapter of a book"
             placeholderTextColor={c.textMuted}
             style={[
               styles.nameInput,
