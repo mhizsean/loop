@@ -1,6 +1,6 @@
+import { TabIcon } from "@/components/tab-icon";
 import { useTheme, useThemeName } from "@/hooks/use-theme";
 import { Tabs } from "expo-router";
-import { Text } from "react-native";
 
 export default function TabsLayout() {
   const c = useTheme();
@@ -24,34 +24,24 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "today",
-          tabBarIcon: ({ color }) => <TabGlyph glyph="◉" color={color} />,
+          title: "Today",
+          tabBarIcon: ({ color }) => <TabIcon name="today" color={color} />,
         }}
       />
       <Tabs.Screen
         name="habits"
         options={{
           title: "Habits",
-          tabBarIcon: ({ color }) => <TabGlyph glyph="≣" color={color} />,
+          tabBarIcon: ({ color }) => <TabIcon name="habits" color={color} />,
         }}
       />
       <Tabs.Screen
         name="settings"
         options={{
           title: "Settings",
-          tabBarIcon: ({ color }) => <TabGlyph glyph="⚙" color={color} />,
+          tabBarIcon: ({ color }) => <TabIcon name="settings" color={color} />,
         }}
-      />{" "}
+      />
     </Tabs>
   );
-}
-
-function TabGlyph({
-  glyph,
-  color,
-}: {
-  glyph: string;
-  color: import("react-native").ColorValue;
-}) {
-  return <Text style={{ color, fontSize: 18 }}>{glyph}</Text>;
 }
